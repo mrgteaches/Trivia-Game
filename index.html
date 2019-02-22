@@ -15,13 +15,21 @@
 
     <div class="container">
         <h1>Viking Quiz!</h1>
-        <p> Time Remaining: </p>
-
-        <div id="quizGoesHere">
-        <p> Question Goes Here </p>
+        <div id=startDiv>
+            <button id="start">START</button>
         </div>
-        <button id="submit">Get Results</button>
-        <div id="results">        </div>
+
+        <p id="remaining"> Time Remaining: <span id="timer"></span> </p>    
+
+        <div id="quiz">   
+        </div>
+
+       <button id="submit">DONE</button>
+        <div id="results"> 
+            <p id="correctText">Correct: <span id="numCorrect"></span></p>
+            <p id="incorrectText">Incorrect: <span id="numIncorrect"></span></p>      
+
+        </div>
     </div>
     
 </body>

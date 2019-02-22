@@ -4,9 +4,9 @@ var vikingQuestions = [
     {
         question: "King Alfred made peace with which Viking leader?",
         answers: {
-            a: "Guthrum",
-            b: "Ivar the Boneless",
-            c: "Sweyn Forkbeard"
+            a: " Guthrum ",
+            b: " Ivar the Boneless ",
+            c: " Sweyn Forkbeard "
         },
         correctAnswer: "a"
     },
@@ -93,10 +93,22 @@ var vikingQuestions = [
     }
 ];
 
+var quizContainer = document.getElementById('quiz');
+var resultsContainer = document.getElementById('results');
+var correctContainer = document.getElementById("numCorrect");
+var incorrectContainer = document.getElementById("numIncorrect");
+var submitButton = document.getElementById('submit');
+
 
 function generateQuiz(questions, quizContainer, resultsContainer, submitButton){
-
 	function showQuestions(questions, quizContainer){
+        startTimer();
+        $("#results").css("display", "none");
+        $("#quiz").css('display', 'block');   
+        $("#submit").css('display', 'block');  
+        $("#remaining").css('display', 'block');  
+        $(".container").css('height', '900px');  
+        $("#start").css('display', 'none');  
 		var output = [];
         var answers;
         for(var i=0; i<questions.length; i++){
@@ -115,42 +127,81 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton){
                 + '<div class="answers">' + answers.join('') + '</div>'
             );
         }
-        quizContainer.innerHTML = output.join('');
-        
-    }
+        quizContainer.innerHTML = output.join('');       
+    } 
     
-    showQuestions(questions, quizContainer);
+    showQuestions(questions, quizContainer); 
 
 	function showResults(questions, quizContainer, resultsContainer){
+        $(".container").css("height", "300px");
+        $("#quiz").css("display", "none");
+        $("#remaining").css("display", "none");
+        $("#submit").css("display", "none");  
+        $("#results").css("display", "block");
         var answerContainers = quizContainer.querySelectorAll('.answers');
         var userAnswer = '';
         var numCorrect = 0;
+        var numIncorrect = 0;
+
         for(var i=0; i<questions.length; i++){
-            userAnswer = (answerContainers[i].querySelector('input[name=question'+i+']:checked')||{}).value;
+             userAnswer = (answerContainers[i].querySelector('input[name=question'+i+']:checked')||{}).value;
             if(userAnswer===questions[i].correctAnswer){
                 numCorrect++;
-                answerContainers[i].style.color = 'lightgreen';
             }
-                else{
-                    answerContainers[i].style.color = 'red';
-                }
-            }
-            resultsContainer.innerHTML = numCorrect + ' out of ' + questions.length;
-	}
+            if(userAnswer!== questions[i].correctAnswer){
+                numIncorrect++
+            }            
+                
+        }
+        
+          correctContainer.innerHTML = numCorrect;
+          incorrectContainer.innerHTML = numIncorrect;
+	} //closes show results
 
-	// show the questions
-	showQuestions(questions, quizContainer);
 
 	// when user clicks submit, show results
 	submitButton.onclick = function(){
-		showResults(questions, quizContainer, resultsContainer);
+        showResults(questions, quizContainer, resultsContainer);
 	}
-}
 
-var quizContainer = document.getElementById('quizGoesHere');
-var resultsContainer = document.getElementById('results');
-var submitButton = document.getElementById('submit');
 
-generateQuiz(vikingQuestions, quizContainer, resultsContainer, submitButton);
+document.getElementById('timer').innerHTML =
+  01 + ":" + 00;
 
-});
+
+function startTimer() {
+  var presentTime = document.getElementById('timer').innerHTML;
+  var timeArray = presentTime.split(/[:]+/);
+  var m = timeArray[0];
+  var s = checkSecond((timeArray[1] - 1));
+  if(s==59){m=m-1}
+  if(m<0){
+      $(".container").css("height", "300px");
+      $("#results").css("display", "block");
+      $("#remaining").css("display", "none"); 
+      $("#submit").css("display", "none");    
+      $("#quiz").css("display", "none");
+      showResults(questions, quizContainer, resultsContainer);
+  }
+  
+  
+ document.getElementById('timer').innerHTML =
+   m + ":" + s;
+ setTimeout(startTimer, 1000);
+
+ 
+} //closes startTimer
+
+function checkSecond(sec) {
+  if (sec < 10 && sec >= 0) {sec = "0" + sec}; // add zero in front of numbers < 10
+  if (sec < 0) {sec = "59"};
+  return sec;
+    } //closes checkSecond
+
+} //closes generate quiz
+
+$("#start").click(function() {
+    generateQuiz(vikingQuestions, quizContainer, resultsContainer, submitButton);   
+}); //closes start click function
+
+}); //closes document ready
