@@ -93,6 +93,8 @@ var vikingQuestions = [
     }
 ];
 
+
+
 var quizContainer = document.getElementById('quiz');
 var resultsContainer = document.getElementById('results');
 var correctContainer = document.getElementById("numCorrect");
@@ -107,7 +109,7 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton){
         $("#quiz").css('display', 'block');   
         $("#submit").css('display', 'block');  
         $("#remaining").css('display', 'block');  
-        $(".container").css('height', '900px');  
+        $(".container").css('height', '100%');  
         $("#start").css('display', 'none');  
 		var output = [];
         var answers;
@@ -118,7 +120,7 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton){
                     '<label>'
                         + '<input type="radio" name="question'+i+'" value="'+letter+'">'
                         + letter + ': '
-                        + questions[i].answers[letter]
+                        + questions[i].answers[letter] 
                     + '</label>'
                 );
             }
@@ -166,7 +168,7 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton){
 
 
 document.getElementById('timer').innerHTML =
-  01 + ":" + 00;
+  03 + ":" + 00;
 
 
 function startTimer() {
